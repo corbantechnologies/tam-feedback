@@ -12,6 +12,7 @@ export const getQuestion = async (slug) => {
   return response?.data || {};
 };
 
+// authenticated
 export const createQuestion = async (values, axios) => {
   await apiActions?.post("/api/v1/questions/", values, axios);
 };
