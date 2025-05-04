@@ -1,4 +1,8 @@
+"use client";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import NextAuthProvider from "@/providers/NextAuthProvider";
+import TanstackQueryProvider from "@/providers/TanstackQueryProvider";
 
 export default function RootLayout({ children }) {
   return (
@@ -7,7 +11,10 @@ export default function RootLayout({ children }) {
         <title>Tamarind Feedback App</title>
         <meta name="description" content="Tamarind Feedback App" />
       </head>
-      <body>{children}</body>
+      <body>
+        <Toaster position="top-center" />
+        <TanstackQueryProvider>{children}</TanstackQueryProvider>
+      </body>
     </html>
   );
 }
