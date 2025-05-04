@@ -1,7 +1,7 @@
 "use client";
 import { useFetchQuestions } from "@/hooks/questions/actions";
 import { createFeedback } from "@/services/feedback";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function FeedbackForm() {
   const {
@@ -22,15 +22,6 @@ export default function FeedbackForm() {
   const [status, setStatus] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (isLoadingQuestions)
-    return <p className="text-center">Loading questions...</p>;
-  if (questionsError)
-    return (
-      <p className="text-[var(--error)] text-center">
-        Error: {questionsError.message}
-      </p>
-    );
-
   // Sort questions: RATING first, then TEXT
   const sortedQuestions = questions
     ? [...questions].sort((a, b) => {
@@ -40,23 +31,24 @@ export default function FeedbackForm() {
       })
     : [];
 
-  // Initialize responses if not set
-  if (formData.responses.length !== sortedQuestions.length) {
-    setFormData({
-      ...formData,
-      responses: sortedQuestions.map((q) => ({
-        question_reference: q.identity,
-        rating: q.type === "RATING" ? null : undefined,
-        text: q.type === "TEXT" ? "" : undefined,
-      })),
-    });
-  }
+  // Initialize responses when questions change
+  useEffect(() => {
+    if (formData.responses.length !== sortedQuestions.length) {
+      setFormData({
+        ...formData,
+        responses: sortedQuestions.map((q) => ({
+          question_reference: q.identity,
+          rating: q.type === "RATING" ? null : undefined,
+          text: q.type === "TEXT" ? "" : undefined,
+        })),
+      });
+    }
+  }, [sortedQuestions]);
 
   // Handle input changes
   const handleChange = (e, index, field) => {
     const { name, value } = e.target;
     if (index !== undefined) {
-      // Update response array
       const updatedResponses = [...formData.responses];
       updatedResponses[index] = {
         ...updatedResponses[index],
@@ -64,10 +56,8 @@ export default function FeedbackForm() {
       };
       setFormData({ ...formData, responses: updatedResponses });
     } else {
-      // Update top-level fields
       setFormData({ ...formData, [name]: value });
     }
-    // Clear errors for changed field
     setErrors({ ...errors, [name || `responses[${index}].${field}`]: "" });
   };
 
@@ -93,16 +83,19 @@ export default function FeedbackForm() {
         (q) => q.identity === response.question_reference
       );
       if (
-        question.type === "RATING" &&
+        question?.type === "RATING" &&
         question.is_required &&
-        !response.rating
+        response.rating == null
       )
         newErrors[`responses[${index}].rating`] = "Rating is required";
-      else if (response.rating && (response.rating < 1 || response.rating > 5))
+      else if (
+        response.rating != null &&
+        (response.rating < 1 || response.rating > 5)
+      )
         newErrors[`responses[${index}].rating`] =
           "Rating must be between 1 and 5";
 
-      if (question.type === "TEXT" && question.is_required && !response.text)
+      if (question?.type === "TEXT" && question.is_required && !response.text)
         newErrors[`responses[${index}].text`] = "Comment is required";
     });
 
@@ -141,6 +134,15 @@ export default function FeedbackForm() {
       setIsSubmitting(false);
     }
   };
+
+  if (isLoadingQuestions)
+    return <p className="text-center">Loading questions...</p>;
+  if (questionsError)
+    return (
+      <p className="text-[var(--error)] text-center">
+        Error: {questionsError.message}
+      </p>
+    );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -201,52 +203,59 @@ export default function FeedbackForm() {
         )}
       </div>
 
-      {/* Questions */}
-      {sortedQuestions.map((question, index) => (
-        <div key={question.identity}>
-          <label className="block text-sm font-medium">{question.text}</label>
-          {question.type === "RATING" ? (
-            <div className="flex gap-2 mt-1">
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <label key={rating} className="flex items-center">
-                  <input
-                    type="radio"
-                    name={`responses[${index}].rating`}
-                    value={rating}
-                    checked={formData.responses[index]?.rating === rating}
-                    onChange={(e) => handleChange(e, index, "rating")}
-                    className="mr-1"
-                  />
-                  {rating}
-                </label>
-              ))}
-            </div>
-          ) : (
-            <textarea
-              name={`responses[${index}].text`}
-              value={formData.responses[index]?.text || ""}
-              onChange={(e) => handleChange(e, index, "text")}
-              className="mt-1 p-2 w-full border border-[var(--neutral)] rounded"
-              rows="4"
-            />
-          )}
-          {errors[
-            `responses[${index}].${
-              question.type === "RATING" ? "rating" : "text"
-            }`
-          ] && (
-            <p className="text-[var(--error)] text-sm mt-1">
-              {
-                errors[
-                  `responses[${index}].${
-                    question.type === "RATING" ? "rating" : "text"
-                  }`
-                ]
-              }
-            </p>
-          )}
-        </div>
-      ))}
+      {/* Questions or No-Questions Message */}
+      {sortedQuestions.length === 0 ? (
+        <p className="text-center text-[var(--foreground)]">
+          No questions available. Please select a ride type and submit your
+          feedback.
+        </p>
+      ) : (
+        sortedQuestions.map((question, index) => (
+          <div key={question.identity}>
+            <label className="block text-sm font-medium">{question.text}</label>
+            {question.type === "RATING" ? (
+              <div className="flex gap-2 mt-1">
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <label key={rating} className="flex items-center">
+                    <input
+                      type="radio"
+                      name={`responses[${index}].rating`}
+                      value={rating}
+                      checked={formData.responses[index]?.rating === rating}
+                      onChange={(e) => handleChange(e, index, "rating")}
+                      className="mr-1"
+                    />
+                    {rating}
+                  </label>
+                ))}
+              </div>
+            ) : (
+              <textarea
+                name={`responses[${index}].text`}
+                value={formData.responses[index]?.text || ""}
+                onChange={(e) => handleChange(e, index, "text")}
+                className="mt-1 p-2 w-full border border-[var(--neutral)] rounded"
+                rows="4"
+              />
+            )}
+            {errors[
+              `responses[${index}].${
+                question.type === "RATING" ? "rating" : "text"
+              }`
+            ] && (
+              <p className="text-[var(--error)] text-sm mt-1">
+                {
+                  errors[
+                    `responses[${index}].${
+                      question.type === "RATING" ? "rating" : "text"
+                    }`
+                  ]
+                }
+              </p>
+            )}
+          </div>
+        ))
+      )}
 
       {/* Status Messages */}
       {status?.success && (
@@ -260,7 +269,7 @@ export default function FeedbackForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary text-lg px-6 py-3 w-full"
+        className="btn-primary text-lg px-6 py-3 w-full mt-4"
       >
         {isSubmitting ? "Submitting..." : "Submit Feedback"}
       </button>
