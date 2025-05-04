@@ -1,18 +1,16 @@
 "use client";
-import { useFetchQuestions } from "@/hooks/questions/actions";
-import React from "react";
 
-function FeedbackForm() {
-  const {
-    isLoading: isLoadingQuestions,
-    data: questions,
-    error: questionsError,
-    refetch: refetchQuestions,
-  } = useFetchQuestions();
+import FeedbackForm from "@/components/FeedbackForm";
 
-  console.log(questions);
-
-  return <div>FeedbackForm</div>;
+export default function FeedbackPage() {
+  return (
+    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full card">
+        <h1 className="text-2xl font-bold mb-4 text-center">
+          Tamarind Dhow Feedback
+        </h1>
+        <FeedbackForm />
+      </div>
+    </div>
+  );
 }
-
-export default FeedbackForm;
