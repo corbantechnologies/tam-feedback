@@ -12,6 +12,9 @@ export default function VillageFeedback() {
     refetch: refetchQuestions,
   } = useFetchQuestions("village");
   const [formData, setFormData] = useState({
+    guest_name: "",
+    guest_email: "",
+    phone: "",
     apartment_no: "",
     arrival_date: "",
     duration_of_stay: "",
@@ -19,6 +22,9 @@ export default function VillageFeedback() {
   });
 
   const initialFormData = {
+    guest_name: "",
+    guest_email: "",
+    phone: "",
     apartment_no: "",
     arrival_date: "",
     duration_of_stay: "",
@@ -40,11 +46,13 @@ export default function VillageFeedback() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const payload = {
         form_type: "village",
+        guest_name: formData.guest_name,
+        guest_email: formData.guest_email,
+        phone: formData.phone,
         apartment_no: formData.apartment_no,
         arrival_date: formData.arrival_date,
         duration_of_stay: parseInt(formData.duration_of_stay),
@@ -66,15 +74,16 @@ export default function VillageFeedback() {
         ),
       };
       const response = await createFeedback(payload);
-      const updatedResponses = { ...formData.responses };
+      console.log("Backend response:", response);
+      const resetResponses = {};
       if (response?.village_responses?.length) {
         response.village_responses.forEach((res) => {
-          if (res.question && updatedResponses[res.question]) {
-            updatedResponses[res.question].submissionRef = res.reference;
+          if (res.question) {
+            resetResponses[res.question] = { submissionRef: res.reference };
           }
         });
       }
-      setFormData({ ...initialFormData, responses: updatedResponses });
+      setFormData({ ...initialFormData, responses: resetResponses });
       toast.success(`Feedback submitted!🚀`, {
         style: { color: "var(--success)" },
       });
@@ -107,7 +116,43 @@ export default function VillageFeedback() {
       <h2 className="text-2xl font-bold text-[var(--foreground)] mb-6">
         Village Feedback
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-4">
+        <div>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
+            Name
+          </label>
+          <input
+            type="text"
+            name="guest_name"
+            value={formData.guest_name}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            name="guest_email"
+            value={formData.guest_email}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
+            Phone
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
         <div>
           <label className="block font-semibold text-[var(--foreground)] mb-1">
             Apartment Number
@@ -250,10 +295,14 @@ export default function VillageFeedback() {
             )}
           </div>
         ))}
-        <button type="submit" className="btn-primary w-full py-2">
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="btn-primary w-full py-2"
+        >
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 }
