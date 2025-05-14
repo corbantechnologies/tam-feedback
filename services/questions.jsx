@@ -2,13 +2,22 @@
 
 import { apiActions } from "@/tools/api";
 
-export const getQuestions = async () => {
-  const response = await apiActions?.get("/api/v1/questions/");
-  return response?.data?.results || [];
+
+export const getQuestions = async (formtype) => {
+  if (!formtype) throw new Error("formtype is required");
+  try {
+    const response = await apiActions?.get(
+      `/api/v1/questions/?form_type=${formtype}`
+    );
+    return response?.data?.results || [];
+  } catch (error) {
+    console.error(`Failed to fetch questions for ${formtype}:`, error);
+    throw error;
+  }
 };
 
 export const getQuestion = async (slug) => {
-  const response = await apiActions?.get(`/api/v1/questions/${questionId}/`);
+  const response = await apiActions?.get(`/api/v1/questions/${slug}/`);
   return response?.data || {};
 };
 
