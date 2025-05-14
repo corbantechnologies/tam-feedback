@@ -60,16 +60,22 @@ export default function VillageFeedback() {
         ),
       };
       const response = await createFeedback(payload);
+      console.log("Backend response:", response); // Debug
       const updatedResponses = { ...formData.responses };
-      response.village_responses.forEach((res) => {
-        updatedResponses[res.question].submissionRef = res.reference;
-      });
-      setFormData({ ...formData, responses: updatedResponses });
+      if (response?.village_responses?.length) {
+        response.village_responses.forEach((res) => {
+          if (res.question && updatedResponses[res.question]) {
+            updatedResponses[res.question].submissionRef = res.reference;
+          }
+        });
+        setFormData({ ...formData, responses: updatedResponses });
+      }
       setSubmitStatus({
         type: "success",
         message: "Feedback submitted! Reference: " + response.reference,
       });
     } catch (error) {
+      console.error("Submission error:", error); // Debug
       setSubmitStatus({ type: "error", message: "Failed to submit feedback." });
     }
   };
