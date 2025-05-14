@@ -5,7 +5,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="flex-1 bg-black text-white flex items-center justify-center py-16 px-4">
+      <section className="flex-1  flex items-center justify-center py-16 px-4">
         <div className="max-w-4xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Welcome to Tamarind Dhow Feedback
@@ -41,7 +41,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="bg-inherit text-gray-600 py-4 text-center">
-        <p>Tamarind Dhow Feedback System | Built with Corban Technologies</p>
+        <p>Tamarind Dhow Feedback System | Built by Dalienst</p>
       </footer>
     </div>
   );
