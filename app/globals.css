@@ -1,44 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F9FAFB;
-  /* gray-50 */
-  --foreground: #1A1A1A;
-  /* deep black */
-  --primary: #1A1A1A;
-  /* deep black */
-  --secondary: #4B4B4B;
-  /* dark gray */
-  --accent: #D1D5DB;
-  /* gray-300 */
-  --neutral: #6B7280;
-  /* gray-500 */
-  --success: #065F46;
-  /* emerald-900 */
-  --error: #7F1D1D;
-  /* red-900 */
+  --background: #ffffff;
+  /* Tamarind white */
+  --foreground: #000000;
+  /* Black for text */
+  --primary: #e20715;
+  /* Tamarind red */
+  --secondary: #2a2d7b;
+  /* Tamarind navy */
+  --accent: #e20715;
+  /* Red for accents */
+  --neutral: #2a2d7b;
+  /* Navy for neutral elements */
+  --success: #2a2d7b;
+  /* Navy for success */
+  --error: #e20715;
+  /* Red for error */
   --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #111111;
-    /* near-black */
-    --foreground: #EDEDED;
-    --primary: #2D2D2D;
-    /* slightly lighter black */
-    --secondary: #6B6B6B;
-    /* lighter gray */
-    --accent: #9CA3AF;
-    /* gray-400 */
-    --neutral: #4B5563;
-    /* gray-600 */
-    --success: #047857;
-    /* emerald-700 */
-    --error: #991B1B;
-    /* red-800 */
-  }
 }
 
 body {
@@ -49,27 +29,28 @@ body {
 
 .btn-primary {
   background: var(--primary);
-  color: #fff;
+  color: #ffffff;
   border-color: var(--primary);
   cursor: pointer;
 }
 
 .btn-success {
   background: var(--success);
-  color: var(--background);
+  color: #ffffff;
   border-color: var(--success);
   cursor: pointer;
 }
 
 .btn-error {
   background: var(--error);
-  color: var(--background);
+  color: #ffffff;
+  border-color: var(--error);
   cursor: pointer;
 }
 
 .btn-secondary {
-  color: #fff;
+  background: var(--secondary);
+  color: #ffffff;
   border-color: var(--secondary);
-  border-width: 1px;
   cursor: pointer;
 }
