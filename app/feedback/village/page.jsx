@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useFetchQuestions } from "@/hooks/questions/actions";
 import { createFeedback } from "@/services/feedback";
+import { toast } from "react-hot-toast";
 
 export default function VillageFeedback() {
   const {
@@ -16,7 +17,13 @@ export default function VillageFeedback() {
     duration_of_stay: "",
     responses: {},
   });
-  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const initialFormData = {
+    apartment_no: "",
+    arrival_date: "",
+    duration_of_stay: "",
+    responses: {},
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +42,6 @@ export default function VillageFeedback() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitStatus(null);
     try {
       const payload = {
         form_type: "village",
@@ -60,7 +66,6 @@ export default function VillageFeedback() {
         ),
       };
       const response = await createFeedback(payload);
-      console.log("Backend response:", response); // Debug
       const updatedResponses = { ...formData.responses };
       if (response?.village_responses?.length) {
         response.village_responses.forEach((res) => {
@@ -68,15 +73,16 @@ export default function VillageFeedback() {
             updatedResponses[res.question].submissionRef = res.reference;
           }
         });
-        setFormData({ ...formData, responses: updatedResponses });
       }
-      setSubmitStatus({
-        type: "success",
-        message: "Feedback submitted! Reference: " + response.reference,
+      setFormData({ ...initialFormData, responses: updatedResponses });
+      toast.success(`Feedback submitted!🚀`, {
+        style: { color: "var(--success)" },
       });
     } catch (error) {
-      console.error("Submission error:", error); // Debug
-      setSubmitStatus({ type: "error", message: "Failed to submit feedback." });
+      console.error("Submission error:", error);
+      toast.error("Failed to submit feedback.", {
+        style: { color: "var(--error)" },
+      });
     }
   };
 
@@ -244,17 +250,6 @@ export default function VillageFeedback() {
             )}
           </div>
         ))}
-        {submitStatus && (
-          <div
-            className={`text-${
-              submitStatus.type === "error"
-                ? "[var(--error)]"
-                : "[var(--success)]"
-            } mb-4`}
-          >
-            {submitStatus.message}
-          </div>
-        )}
         <button type="submit" className="btn-primary w-full py-2">
           Submit
         </button>

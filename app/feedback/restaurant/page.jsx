@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useFetchQuestions } from "@/hooks/questions/actions";
 import { createFeedback } from "@/services/feedback";
+import { toast } from "react-hot-toast";
 
 export default function RestaurantFeedback() {
   const {
@@ -16,7 +17,13 @@ export default function RestaurantFeedback() {
     phone: "",
     responses: {},
   });
-  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const initialFormData = {
+    guest_name: "",
+    guest_email: "",
+    phone: "",
+    responses: {},
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,9 +37,7 @@ export default function RestaurantFeedback() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitStatus(null);
+  const handleSubmit = async () => {
     try {
       const payload = {
         form_type: "restaurant",
@@ -48,12 +53,14 @@ export default function RestaurantFeedback() {
         ),
       };
       const response = await createFeedback(payload);
-      setSubmitStatus({
-        type: "success",
-        message: "Feedback submitted! Reference: " + response.reference,
+      setFormData(initialFormData);
+      toast.success(`Feedback submitted!🚀`, {
+        style: { color: "var(--success)" },
       });
     } catch (error) {
-      setSubmitStatus({ type: "error", message: "Failed to submit feedback." });
+      toast.error("Failed to submit feedback.", {
+        style: { color: "var(--error)" },
+      });
     }
   };
 
@@ -78,7 +85,7 @@ export default function RestaurantFeedback() {
       <h2 className="text-2xl font-bold text-[var(--foreground)] mb-6">
         Restaurant Feedback
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-4">
         <div>
           <label className="block text-[var(--foreground)] mb-1">Name</label>
           <input
@@ -176,21 +183,14 @@ export default function RestaurantFeedback() {
             )}
           </div>
         ))}
-        {submitStatus && (
-          <div
-            className={`text-${
-              submitStatus.type === "error"
-                ? "[var(--error)]"
-                : "[var(--success)]"
-            } mb-4`}
-          >
-            {submitStatus.message}
-          </div>
-        )}
-        <button type="submit" className="btn-primary w-full py-2">
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="btn-primary w-full py-2"
+        >
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 }
