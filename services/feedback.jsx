@@ -3,9 +3,14 @@
 import { apiActions } from "@/tools/api";
 
 export const createFeedback = async (values) => {
-  await apiActions?.post("/api/v1/feedback/", values);
+  try {
+    const response = await apiActions.post("/api/v1/feedback/", values);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to submit feedback:", error);
+    throw error;
+  }
 };
-
 // authenticated
 // Today
 export const getTodayFeedbacks = async (axios) => {
