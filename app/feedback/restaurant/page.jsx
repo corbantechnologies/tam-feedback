@@ -87,7 +87,7 @@ export default function RestaurantFeedback() {
       </h2>
       <div className="space-y-4">
         <div>
-          <label className="block text-[var(--foreground)] mb-1">Name</label>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">Name</label>
           <input
             type="text"
             name="guest_name"
@@ -97,7 +97,7 @@ export default function RestaurantFeedback() {
           />
         </div>
         <div>
-          <label className="block text-[var(--foreground)] mb-1">Email</label>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">Email</label>
           <input
             type="email"
             name="guest_email"
@@ -107,7 +107,7 @@ export default function RestaurantFeedback() {
           />
         </div>
         <div>
-          <label className="block text-[var(--foreground)] mb-1">Phone</label>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">Phone</label>
           <input
             type="tel"
             name="phone"
@@ -118,7 +118,7 @@ export default function RestaurantFeedback() {
         </div>
         {questions.map((question) => (
           <div key={question.identity} className="space-y-2">
-            <label className="block text-[var(--foreground)]">
+            <label className="block font-semibold text-[var(--foreground)]">
               {question.text}
             </label>
             {question.type === "RATING" && (

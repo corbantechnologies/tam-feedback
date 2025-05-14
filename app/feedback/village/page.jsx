@@ -109,7 +109,7 @@ export default function VillageFeedback() {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-[var(--foreground)] mb-1">
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
             Apartment Number
           </label>
           <input
@@ -122,7 +122,7 @@ export default function VillageFeedback() {
           />
         </div>
         <div>
-          <label className="block text-[var(--foreground)] mb-1">
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
             Arrival Date
           </label>
           <input
@@ -135,7 +135,7 @@ export default function VillageFeedback() {
           />
         </div>
         <div>
-          <label className="block text-[var(--foreground)] mb-1">
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
             Duration of Stay (days)
           </label>
           <input
@@ -150,7 +150,7 @@ export default function VillageFeedback() {
         </div>
         {questions.map((question) => (
           <div key={question.identity} className="space-y-2">
-            <label className="block text-[var(--foreground)]">
+            <label className="block font-semibold text-[var(--foreground)]">
               {question.text}
             </label>
             {question.type === "RATING" && (
@@ -221,7 +221,7 @@ export default function VillageFeedback() {
               <div className="ml-4 border-l-2 border-[var(--accent)] pl-4 space-y-2">
                 {question.sub_questions.map((sub) => (
                   <div key={sub.identity}>
-                    <label className="block text-[var(--foreground)]">
+                    <label className="block font-semibold italic text-[var(--foreground)]">
                       {sub.text}
                     </label>
                     <select

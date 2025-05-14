@@ -30,11 +30,11 @@ export default function LandingPage() {
                 Village Feedback
               </button>
             </Link>
-            <Link href="/">
+            {/* <Link href="/">
               <button className="btn-secondary text-lg px-6 py-3">
                 Staff Dashboard
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
