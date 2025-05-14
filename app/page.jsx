@@ -15,9 +15,19 @@ export default function LandingPage() {
             enhance our service.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/feedback">
+            <Link href="/feedback/dhow">
               <button className="btn-primary text-lg px-6 py-3">
-                Give Feedback
+                Dhow Feedback
+              </button>
+            </Link>
+            <Link href="/feedback/restaurant">
+              <button className="btn-primary text-lg px-6 py-3">
+                Restaurant Feedback
+              </button>
+            </Link>
+            <Link href="/feedback/village">
+              <button className="btn-primary text-lg px-6 py-3">
+                Village Feedback
               </button>
             </Link>
             <Link href="/">
@@ -30,8 +40,8 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-inherit text-white py-4 text-center">
-        <p>Tamarind Dhow Feedback System | Built with ❤️ in Mombasa</p>
+      <footer className="bg-inherit text-gray-600 py-4 text-center">
+        <p>Tamarind Dhow Feedback System | Built with Corban Technologies</p>
       </footer>
     </div>
   );

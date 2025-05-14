@@ -2,10 +2,11 @@
 
 import { apiActions } from "@/tools/api";
 
+
 export const getQuestions = async (formtype) => {
   if (!formtype) throw new Error("formtype is required");
   try {
-    const response = await apiActions.get(
+    const response = await apiActions?.get(
       `/api/v1/questions/?form_type=${formtype}`
     );
     return response?.data?.results || [];
