@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosAuth from "../general/useAxiosAuth";
-import useUserId from "../general/useUserId";
+import useAxiosAuth from "@/hooks/general/useAxiosAuth";
+import useUserId from "@/hooks/general/useUserId";
 import { getUser } from "@/services/accounts";
 
 export function useFetchAccount() {

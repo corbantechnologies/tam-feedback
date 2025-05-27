@@ -10,7 +10,11 @@ function AdminDashboard() {
     refetch: refetchAccount,
   } = useFetchAccount();
 
-  console.log(account);
+  console.log(account?.email);
+
+  if (isLoadingAccount) {
+    return <div>Loading...</div>;
+  }
 
   return <div>AdminDashboard</div>;
 }
