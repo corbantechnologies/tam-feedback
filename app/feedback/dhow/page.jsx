@@ -18,6 +18,7 @@ export default function DhowFeedback() {
     phone: "",
     responses: {},
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const initialFormData = {
     ride_type: "",
@@ -40,6 +41,7 @@ export default function DhowFeedback() {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     try {
       const payload = {
         form_type: "dhow",
@@ -55,11 +57,12 @@ export default function DhowFeedback() {
           })
         ),
       };
-      const response = await createFeedback(payload);
+      await createFeedback(payload);
       setFormData(initialFormData);
       toast.success(`Feedback submitted!🚀`, {
         style: { color: "var(--success)" },
       });
+      setSubmitting(false);
     } catch (error) {
       toast.error("Failed to submit feedback.", {
         style: { color: "var(--error)" },
@@ -216,9 +219,14 @@ export default function DhowFeedback() {
           <button
             type="button"
             onClick={handleSubmit}
+            disabled={submitting}
             className="btn-primary w-full py-2 rounded-lg text-white font-semibold hover:bg-purple-600 transition-colors"
           >
-            Submit
+            {submitting ? (
+              <span className="animate-pulse">Submitting...</span>
+            ) : (
+              "Submit Feedback"
+            )}
           </button>
         </div>
       </div>
