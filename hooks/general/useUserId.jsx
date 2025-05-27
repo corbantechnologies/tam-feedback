@@ -4,7 +4,7 @@ import React from "react";
 
 function useUserId() {
   const { data: session } = useSession();
-  const userId = session?.user?.user_id;
+  const userId = session?.user?.id;
   return userId;
 }
 

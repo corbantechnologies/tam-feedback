@@ -5,11 +5,11 @@ import { useSession } from "next-auth/react";
 function useAxiosAuth() {
   const { data: session } = useSession();
 
-  const tokens = session?.user?.access;
+  const tokens = session?.user?.token;
 
   const authenticationHeader = {
     headers: {
-      Authorization: "Bearer" + " " + tokens,
+      Authorization: "Token " + tokens,
       "Content-Type": "multipart/form-data",
     },
   };

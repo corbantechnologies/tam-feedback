@@ -43,7 +43,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="bg-inherit text-gray-600 py-4 text-center">
-        <p>Tamarind Dhow Feedback System | Built by Dalienst</p>
+        <p>Tamarind Feedback System | Built by Dalienst</p>
       </footer>
     </div>
   );

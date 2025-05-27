@@ -5,46 +5,65 @@ import { apiActions } from "@/tools/api";
 export const createFeedback = async (values) => {
   await apiActions?.post("/api/v1/feedback/", values);
 };
+
 // authenticated
-// Today
-export const getTodayFeedbacks = async (axios) => {
-  const response = await apiActions?.get("/api/v1/feedback/list/", axios);
+export const getFeedbacks = async (axios, params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  const response = await apiActions?.get(
+    `/api/v1/feedback/list/?${query}`,
+    axios
+  );
   return response || [];
 };
 
-export const getTodayFeedbacksByRideType = async (axios) => {
+export const getAllFeedbacks = async (axios) => {
+  const response = await apiActions?.get("/api/v1/feedback/list", axios);
+  return response?.data || [];
+};
+
+export const getFeedbackByFormType = async (axios) => {
+  const response = await apiActions?.get(
+    "/api/v1/feedback/list?form_type=true",
+    axios
+  );
+  return response || [];
+};
+
+export const getFeedbackBySpecificFormType = async (axios, formType) => {
+  const response = await apiActions?.get(
+    `/api/v1/feedback/list?form_type=${formType}`,
+    axios
+  );
+  return response || [];
+};
+
+export const getFeedbacksBySpecificRide = async (axios, ride) => {
+  const response = await apiActions?.get(
+    `/api/v1/feedback/list?form_type=dhow&ride_type=${ride}`,
+    axios
+  );
+  return response || [];
+};
+
+export const getGroupedFeedbacksByRide = async (axios) => {
   const response = await apiActions?.get(
     "/api/v1/feedback/list?group_by_ride_type=true",
     axios
   );
-  return response || {};
+  return response || [];
 };
 
-export const getTodayFeedbacksBySpecificRide = async (axios, ride) => {
+export const getFeedbackByDate = async (axios, date) => {
   const response = await apiActions?.get(
-    `/api/v1/feedback/list?ride_type=${ride}`,
+    `/api/v1/feedback/list?date=${date}`,
     axios
   );
   return response || [];
 };
 
-// All
-export const getAllFeedbacks = async (axios) => {
-  const response = await apiActions?.get("/api/v1/feedback/all/", axios);
-  return response || [];
-};
-
-export const getAllFeedbacksByRideType = async (axios) => {
+export const getFeedbackByDateRange = async (axios, startDate, endDate) => {
   const response = await apiActions?.get(
-    "/api/v1/feedback/all?group_by_ride_type=true",
-    axios
-  );
-  return response || {};
-};
-
-export const getAllFeedbacksBySpecificRide = async (axios, ride) => {
-  const response = await apiActions?.get(
-    `/api/v1/feedback/all?ride_type=${ride}`,
+    `/api/v1/feedback/list?start_date=${startDate}&end_date=${endDate}`,
     axios
   );
   return response || [];
