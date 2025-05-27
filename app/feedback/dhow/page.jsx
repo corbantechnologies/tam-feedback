@@ -39,8 +39,7 @@ export default function DhowFeedback() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const payload = {
         form_type: "dhow",
@@ -89,7 +88,7 @@ export default function DhowFeedback() {
       <h2 className="text-2xl font-bold text-[var(--foreground)] mb-6">
         Dhow Feedback
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-4">
         <div>
           <label className="block font-semibold text-[var(--foreground)] mb-1">
             Ride Type
@@ -107,7 +106,9 @@ export default function DhowFeedback() {
           </select>
         </div>
         <div>
-          <label className="block font-semibold text-[var(--foreground)] mb-1">Name</label>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
+            Name<sup className="text-red-500">*</sup>
+          </label>
           <input
             type="text"
             name="guest_name"
@@ -117,7 +118,9 @@ export default function DhowFeedback() {
           />
         </div>
         <div>
-          <label className="block font-semibold text-[var(--foreground)] mb-1">Email</label>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
+            Email
+          </label>
           <input
             type="email"
             name="guest_email"
@@ -127,7 +130,9 @@ export default function DhowFeedback() {
           />
         </div>
         <div>
-          <label className="block font-semibold text-[var(--foreground)] mb-1">Phone</label>
+          <label className="block font-semibold text-[var(--foreground)] mb-1">
+            Phone
+          </label>
           <input
             type="tel"
             name="phone"
@@ -142,25 +147,25 @@ export default function DhowFeedback() {
               {question.text}
             </label>
             {question.type === "RATING" && (
-              <select
-                value={formData.responses[question.identity] || ""}
-                onChange={(e) =>
-                  handleResponseChange(
-                    question.identity,
-                    parseInt(e.target.value)
-                  )
-                }
-                className="w-full p-2 border border-gray-300 rounded"
-              >
-                <option value="">Select</option>
+              <div className="flex space-x-2">
                 {[...Array(question.max_rating + 1).keys()]
                   .slice(1)
                   .map((val) => (
-                    <option key={val} value={val}>
+                    <button
+                      key={val}
+                      onClick={() =>
+                        handleResponseChange(question.identity, val)
+                      }
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        formData.responses[question.identity] === val
+                          ? "bg-purple-500 text-white"
+                          : "bg-gray-300 text-black"
+                      }`}
+                    >
                       {val}
-                    </option>
+                    </button>
                   ))}
-              </select>
+              </div>
             )}
             {question.type === "TEXT" && (
               <textarea
@@ -203,10 +208,14 @@ export default function DhowFeedback() {
             )}
           </div>
         ))}
-        <button type="submit" className="btn-primary w-full py-2">
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="btn-primary w-full py-2"
+        >
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 }
