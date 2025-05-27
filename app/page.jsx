@@ -8,11 +8,13 @@ export default function LandingPage() {
       <section className="flex-1  flex items-center justify-center py-16 px-4">
         <div className="max-w-4xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Welcome to Tamarind Dhow Feedback
+            Welcome to Tamarind Feedback
           </h1>
           <p className="text-lg md:text-xl mb-8">
-            Share your unforgettable dhow experience or explore insights to
-            enhance our service.
+            Thank you for choosing Tamarind. Your feedback is invaluable to us.
+            We strive to provide the best experience, and your insights help us
+            to improve. Share your unforgettable dhow experience or explore
+            insights to enhance our service.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/feedback/dhow">
