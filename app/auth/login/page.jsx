@@ -23,7 +23,6 @@ function Login() {
 
     setLoading(false);
     if (response?.error) {
-      setLoading(false);
       toast?.error("Invalid email or password");
     } else {
       toast?.success("Login successful! Redirecting...");
@@ -36,9 +35,9 @@ function Login() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex justify-center p-6">
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center p-6">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-4">Login</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -75,7 +74,7 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
           >
             {loading ? "Loading..." : "Login"}
           </button>
