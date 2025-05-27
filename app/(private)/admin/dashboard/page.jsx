@@ -217,41 +217,52 @@ function AdminDashboard() {
 
       {selectedFeedback && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Responses</h2>
-            <div className="mt-2 p-3 bg-gray-100 rounded-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Responses</h2>
+            <div className="mt-2">
               {[
                 ...(selectedFeedback.village_responses || []),
                 ...(selectedFeedback.dhow_responses || []),
                 ...(selectedFeedback.restaurant_responses || []),
               ].length > 0 ? (
-                <ul className="list-disc pl-5 space-y-1">
-                  {[
-                    ...(selectedFeedback.village_responses || []),
-                    ...(selectedFeedback.dhow_responses || []),
-                    ...(selectedFeedback.restaurant_responses || []),
-                  ].map((response, idx) => (
-                    <li key={idx} className="text-gray-700">
-                      <span className="font-medium">
-                        {response.question
-                          .replace(/-/g, " ")
-                          .replace(/\b\w/g, (c) => c.toUpperCase())}
-                        :
-                      </span>{" "}
-                      {response.text
-                        ? response.text
-                        : response.rating !== null
-                        ? `Rating: ${response.rating}`
-                        : response.yes_no !== null
-                        ? response.yes_no
-                          ? "Yes"
-                          : "No"
-                        : "N/A"}
-                    </li>
-                  ))}
-                </ul>
+                <table className="w-full border border-gray-200 rounded-lg">
+                  <thead>
+                    <tr className="bg-gray-100 text-left text-gray-700">
+                      <th className="p-3 font-semibold border-b">Question</th>
+                      <th className="p-3 font-semibold border-b">Response</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ...(selectedFeedback.village_responses || []),
+                      ...(selectedFeedback.dhow_responses || []),
+                      ...(selectedFeedback.restaurant_responses || []),
+                    ].map((response, idx) => (
+                      <tr key={idx} className="border-t">
+                        <td className="p-3 text-gray-700 font-medium">
+                          {response.question
+                            .replace(/-/g, " ")
+                            .replace(/\b\w/g, (c) => c.toUpperCase())}
+                        </td>
+                        <td className="p-3 text-gray-700">
+                          {response.text
+                            ? response.text
+                            : response.rating !== null
+                            ? `Rating: ${response.rating}`
+                            : response.yes_no !== null
+                            ? response.yes_no
+                              ? "Yes"
+                              : "No"
+                            : "N/A"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               ) : (
-                <p className="text-gray-500">No responses available.</p>
+                <p className="text-gray-500 text-center p-3">
+                  No responses available.
+                </p>
               )}
             </div>
             <button
