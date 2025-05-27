@@ -238,9 +238,11 @@ function AdminDashboard() {
                           .replace(/\b\w/g, (c) => c.toUpperCase())}
                         :
                       </span>{" "}
-                      {response.rating !== null
+                      {response.text
+                        ? response.text
+                        : response.rating !== null
                         ? `Rating: ${response.rating}`
-                        : response.text || response.yes_no
+                        : response.yes_no !== null
                         ? response.yes_no
                           ? "Yes"
                           : "No"
