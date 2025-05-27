@@ -16,6 +16,11 @@ export const getFeedbacks = async (axios, params = {}) => {
   return response || [];
 };
 
+export const getAllFeedbacks = async (axios) => {
+  const response = await apiActions?.get("/api/v1/feedback/list", axios);
+  return response?.data || [];
+};
+
 export const getFeedbackByFormType = async (axios) => {
   const response = await apiActions?.get(
     "/api/v1/feedback/list?form_type=true",

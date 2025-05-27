@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosAuth from "../general/useAxiosAuth";
 import {
+  getAllFeedbacks,
   getFeedbackByDate,
   getFeedbackByDateRange,
   getFeedbackByFormType,
@@ -16,6 +17,15 @@ export function useFetchFeedbacksByFormType() {
   return useQuery({
     queryKey: ["feedbacks"],
     queryFn: () => getFeedbackByFormType(axios),
+    enabled: !!axios,
+  });
+}
+
+export function useFetchAllFeedbacks() {
+  const axios = useAxiosAuth();
+  return useQuery({
+    queryKey: ["feedbacks"],
+    queryFn: () => getAllFeedbacks(axios),
     enabled: !!axios,
   });
 }
