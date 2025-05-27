@@ -14,7 +14,9 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Toaster position="top-center" />
-        <TanstackQueryProvider>{children}</TanstackQueryProvider>
+        <NextAuthProvider>
+          <TanstackQueryProvider>{children}</TanstackQueryProvider>
+        </NextAuthProvider>
         <Analytics />
       </body>
     </html>
