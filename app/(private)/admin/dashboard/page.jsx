@@ -160,7 +160,6 @@ function AdminDashboard() {
                   <tr className="bg-gray-200 text-left text-gray-700">
                     <th className="p-3 font-semibold">Form Type</th>
                     <th className="p-3 font-semibold">Guest Name</th>
-                    <th className="p-3 font-semibold">Email</th>
                     <th className="p-3 font-semibold">Date</th>
                     <th className="p-3 font-semibold">Reference</th>
                     <th className="p-3 font-semibold">Responses</th>
@@ -176,7 +175,6 @@ function AdminDashboard() {
                     >
                       <td className="p-3">{feedback.form_type}</td>
                       <td className="p-3">{feedback.guest_name}</td>
-                      <td className="p-3">{feedback.guest_email}</td>
                       <td className="p-3">
                         {new Date(feedback.created_at).toLocaleDateString()}
                       </td>
