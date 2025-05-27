@@ -20,6 +20,7 @@ export default function VillageFeedback() {
     duration_of_stay: "",
     responses: {},
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const initialFormData = {
     guest_name: "",
@@ -47,6 +48,7 @@ export default function VillageFeedback() {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     try {
       const payload = {
         form_type: "village",
@@ -74,7 +76,7 @@ export default function VillageFeedback() {
         ),
       };
       const response = await createFeedback(payload);
-      console.log("Backend response:", response);
+      // console.log("Backend response:", response);
       const resetResponses = {};
       if (response?.village_responses?.length) {
         response.village_responses.forEach((res) => {
@@ -84,21 +86,20 @@ export default function VillageFeedback() {
         });
       }
       setFormData({ ...initialFormData, responses: resetResponses });
-      toast.success(`Feedback submitted!🚀`, {
-        style: { color: "var(--success)" },
-      });
+      toast.success(`Feedback submitted!🚀`);
+      setSubmitting(false);
     } catch (error) {
-      console.error("Submission error:", error);
-      toast.error("Failed to submit feedback.", {
-        style: { color: "var(--error)" },
-      });
+      // console.error("Submission error:", error);
+      toast.error("Failed to submit feedback.");
     }
   };
 
   if (isLoadingQuestions)
     return (
-      <div className="text-center text-[var(--foreground)]">
-        Loading questions...
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="relative">
+          <div className="w-16 h-16 border-4 border-[var(--accent)] border-t-transparent rounded-full animate-spin"></div>
+        </div>
       </div>
     );
   if (questionsError)
@@ -298,9 +299,14 @@ export default function VillageFeedback() {
         <button
           type="button"
           onClick={handleSubmit}
-          className="btn-primary w-full py-2"
+          disabled={submitting}
+          className="btn-primary w-full py-2 rounded-lg text-white font-semibold hover:bg-purple-600 transition-colors"
         >
-          Submit
+          {submitting ? (
+            <span className="animate-pulse">Submitting...</span>
+          ) : (
+            "Submit Feedback"
+          )}
         </button>
       </div>
     </div>
